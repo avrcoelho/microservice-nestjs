@@ -1,0 +1,21 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthResult {
+  token: String!
+  id: String!
+}
+
+type Query {
+  getUser: AuthResult!
+}
+
+type Mutation {
+  auth(data: AuthInput!): AuthResult!
+}
+
+input AuthInput {
+  email: String!
+  password: String!
+}
