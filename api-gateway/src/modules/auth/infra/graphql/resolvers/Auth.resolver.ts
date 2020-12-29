@@ -1,22 +1,24 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
+import { ClientProxy } from '@nestjs/microservices';
+import { Inject } from '@nestjs/common';
+import { Observable } from 'rxjs';
 
 import AuthInput from '../inputs/Auth.input';
-import AuthResult from '../results/Auth.result';
+import AuthObjectType from '../ObjectsType/Auth.object';
 
-@Resolver(() => AuthResult)
+@Resolver(() => AuthObjectType)
 export default class AuthResolver {
-  constructor() {}
+  constructor(@Inject('USER_SERVICE') private readonly client: ClientProxy) {}
 
-  @Query(() => AuthResult)
+  @Query(() => AuthObjectType)
   public async getUser() {
     return '';
   }
 
-  @Mutation(() => AuthResult)
-  public async auth(@Args('data') input: AuthInput): Promise<AuthResult> {
-    return {
-      token: 'jjiojio',
-      id: 'jmjjop',
-    };
+  @Mutation(() => AuthObjectType)
+  public auth(@Args('data') input: AuthInput): Observable<AuthObjectType> {
+    const auth = this.client.send<AuthObjectType>('auth', input);
+
+    return auth;
   }
 }

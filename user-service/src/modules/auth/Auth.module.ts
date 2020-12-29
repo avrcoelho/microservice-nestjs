@@ -4,8 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from '@config/jwt';
 import UserModule from '@modules/user/User.module';
 import AuthService from './services/Auth.service';
-import AuthResolver from './infra/graphql/resolvers/Auth.resolver';
-import JwtStrategy from './strategies/jwt.strategy';
+import AUthController from './infra/eventPattern/controllers/Auth.controller';
 
 @Module({
   imports: [
@@ -15,6 +14,7 @@ import JwtStrategy from './strategies/jwt.strategy';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  providers: [AuthService, AuthResolver, JwtStrategy],
+  controllers: [AUthController],
+  providers: [AuthService],
 })
 export default class AuthModule {}

@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
-import jwtConfig from '@config/jwt';
+import redisConfig from '@config/redis';
 import AuthResolver from './infra/graphql/resolvers/Auth.resolver';
 import JwtStrategy from './strategies/jwt.strategy';
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: jwtConfig.secret,
-      signOptions: { expiresIn: '1d' },
-    }),
+    ClientsModule.register([
+      {
+        name: 'USER_SERVICE',
+        transport: Transport.REDIS,
+        options: redisConfig,
+      },
+    ]),
   ],
   providers: [AuthResolver, JwtStrategy],
 })

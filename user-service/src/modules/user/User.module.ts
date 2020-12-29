@@ -5,21 +5,19 @@ import UserRepository from './infra/typeorm/repositories/User.repository';
 import CreateUserService from './services/CreateUser.service';
 import GetUserService from './services/GetUser.service';
 import BCryptHashProvider from './providers/hashProvider/implementations/BCryptHash.provider';
-import UserResolver from './infra/graphql/resolvers/User.resolver';
-import GetMessageUserResolver from './infra/graphql/resolvers/GetUserPost.resolver';
+import UserController from './infra/eventPattern/controllers/User.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserRepository])],
   providers: [
     CreateUserService,
     GetUserService,
-    UserResolver,
-    GetMessageUserResolver,
     {
       provide: 'HashProvider',
       useClass: BCryptHashProvider,
     },
   ],
+  controllers: [UserController],
   exports: [
     TypeOrmModule.forFeature([UserRepository]),
     {
