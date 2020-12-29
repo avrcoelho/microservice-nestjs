@@ -5,16 +5,8 @@ import { JwtService } from '@nestjs/jwt';
 import UserRepository from '@modules/user/infra/typeorm/repositories/User.repository';
 import IHashProvider from '@modules/user/providers/hashProvider/models/IHash.provider';
 import IUserRepository from '@modules/user/repositories/IUser.repository';
-
-interface IRequest {
-  email: string;
-  password: string;
-}
-
-export interface IResponse {
-  token: string;
-  id: string;
-}
+import IAuthDTO from '../dtos/IAuth.dto';
+import IAuthModel from '../models/IAuth.model';
 
 @Injectable()
 class AuthService {
@@ -28,7 +20,7 @@ class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async execute({ email, password }: IRequest): Promise<IResponse> {
+  async execute({ email, password }: IAuthDTO): Promise<IAuthModel> {
     const user = await this.usersRepository.findByEmail(email.toLowerCase());
 
     if (!user) {
