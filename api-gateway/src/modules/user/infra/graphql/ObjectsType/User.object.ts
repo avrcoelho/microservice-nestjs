@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
-import PostObjectType from './Post.object';
+import PostObjectType from '@modules/post/infra/graphql/ObjectsType/Post.object';
 
 @ObjectType()
 export default class UserObjectType {

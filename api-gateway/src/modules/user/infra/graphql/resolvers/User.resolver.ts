@@ -18,7 +18,10 @@ export default class UserResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => UserObjectType)
   public getUser(@Context('user') user: IUser): Observable<UserObjectType> {
-    const userData = this.client.send<UserObjectType>('show-user', user.id);
+    const userData = this.client.send<UserObjectType, string>(
+      'show-user',
+      user.id,
+    );
 
     return userData;
   }
@@ -27,7 +30,10 @@ export default class UserResolver {
   public createUser(
     @Args('data') input: UserInput,
   ): Observable<UserObjectType> {
-    const user = this.client.send<UserObjectType>('create-user', input);
+    const user = this.client.send<UserObjectType, UserInput>(
+      'create-user',
+      input,
+    );
 
     return user;
   }

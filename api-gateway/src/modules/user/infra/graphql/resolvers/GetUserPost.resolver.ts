@@ -4,7 +4,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
 import JwtAuthGuard from '@shared/infra/graphql/guards/jwt-auth.guard';
-import PostObjectType from '../ObjectsType/Post.object';
+import PostObjectType from '@modules/post/infra/graphql/ObjectsType/Post.object';
 import UserObjectType from '../ObjectsType/User.object';
 
 @UseGuards(JwtAuthGuard)
@@ -16,7 +16,7 @@ export default class GetUserPostResolver {
   public async user(
     @Parent() post: PostObjectType,
   ): Promise<Observable<UserObjectType>> {
-    const userData = this.client.send<UserObjectType>(
+    const userData = this.client.send<UserObjectType, string>(
       'show-user',
       post.user_id,
     );

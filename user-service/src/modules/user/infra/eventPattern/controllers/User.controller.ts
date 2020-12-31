@@ -6,10 +6,6 @@ import CreateUserService from '../../../services/CreateUser.service';
 import GetUserService from '../../../services/GetUser.service';
 import ICreateUserDTO from '../../../dtos/ICreateUser.dto';
 
-interface IUser {
-  id: string;
-}
-
 @Controller()
 export default class UserController {
   constructor(
