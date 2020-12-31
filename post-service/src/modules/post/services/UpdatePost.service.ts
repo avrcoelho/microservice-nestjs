@@ -6,11 +6,6 @@ import PostRepository from '../infra/typeorm/repositories/Post.repository';
 import Post from '../infra/typeorm/entities/Post.entity';
 import IUpdatePostDTO from '../dtos/IUpdatePost.dto';
 
-interface IRequest {
-  data: IUpdatePostDTO;
-  id: string;
-}
-
 @Injectable()
 class UpdatePostService {
   constructor(
@@ -18,7 +13,7 @@ class UpdatePostService {
     private postsRepository: IPostRepository,
   ) {}
 
-  async execute({ data, id }: IRequest): Promise<Post> {
+  async execute({ data, id }: IUpdatePostDTO): Promise<Post> {
     const post = await this.postsRepository.findById(id);
 
     if (!post) {
