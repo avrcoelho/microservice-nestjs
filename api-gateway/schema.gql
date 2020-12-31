@@ -2,20 +2,71 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AuthResult {
+type AuthObjectType {
   token: String!
   id: String!
 }
 
+type PostObjectType {
+  id: ID!
+  user_id: ID!
+  title: String!
+  content: String!
+  image: String
+  created_at: String!
+  updated_at: String!
+  user: UserObjectType
+  image_url: String
+}
+
+type UserObjectType {
+  id: ID!
+  name: String!
+  email: String!
+  created_at: String!
+  updated_at: String!
+  posts: [PostObjectType!]
+}
+
 type Query {
-  getUser: AuthResult!
+  getUser: UserObjectType!
+  getUserPosts(id: ID!): [PostObjectType!]!
+  getPost(id: ID!): PostObjectType!
 }
 
 type Mutation {
-  auth(data: AuthInput!): AuthResult!
+  auth(data: AuthInput!): AuthObjectType!
+  createUser(data: UserInput!): UserObjectType!
+  createPost(data: CreatePostInput!): PostObjectType!
+  updatePost(id: ID!, data: UpdatePostInput!): PostObjectType!
+  deletePost(id: ID!): Boolean!
 }
 
 input AuthInput {
   email: String!
   password: String!
+}
+
+input UserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+  image: String
+}
+
+input UpdatePostInput {
+  title: String!
+  content: String!
+  image: String
+}
+
+type Subscription {
+  postAdded(user_id: ID!): PostObjectType!
+  postUpdated(user_id: ID!): PostObjectType!
+  postDelected(user_id: ID!): PostObjectType!
 }

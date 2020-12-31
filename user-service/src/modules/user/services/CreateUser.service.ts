@@ -1,5 +1,6 @@
-import { Injectable, BadRequestException, Inject } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RpcException } from '@nestjs/microservices';
 
 import UserRepository from '../infra/typeorm/repositories/User.repository';
 import User from '../infra/typeorm/entities/User.entity';
@@ -23,7 +24,7 @@ class CreateUserService {
     );
 
     if (checkUserExists) {
-      throw new BadRequestException('E-mail já cadastrado');
+      throw new RpcException('E-mail já cadastrado');
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);

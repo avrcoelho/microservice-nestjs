@@ -1,5 +1,6 @@
-import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RpcException } from '@nestjs/microservices';
 import { JwtService } from '@nestjs/jwt';
 
 import UserRepository from '@modules/user/infra/typeorm/repositories/User.repository';
@@ -24,7 +25,7 @@ class AuthService {
     const user = await this.usersRepository.findByEmail(email.toLowerCase());
 
     if (!user) {
-      throw new UnauthorizedException('Incorrect e-mail/password combination');
+      throw new RpcException('Incorrect e-mail/password combination');
     }
 
     const passwordMatched = await this.hashProvider.compareHash(
@@ -33,7 +34,7 @@ class AuthService {
     );
 
     if (!passwordMatched) {
-      throw new UnauthorizedException('Incorrect e-mail/password combination');
+      throw new RpcException('Incorrect e-mail/password combination');
     }
 
     const payload = { id: user.id };

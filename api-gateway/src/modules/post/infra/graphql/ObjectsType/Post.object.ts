@@ -20,12 +20,12 @@ export default class PostObjectType {
   image: string | null;
 
   @Field()
-  created_at: Date;
+  created_at: string;
 
   @Field()
-  updated_at: Date;
+  updated_at: string;
 
-  @Field(() => UserObjectType)
+  @Field(() => UserObjectType, { nullable: true })
   user: UserObjectType;
 
   @Field(() => String, { nullable: true })

@@ -78,13 +78,11 @@ export default class PostResolver {
   }
 
   @Mutation(() => Boolean)
-  public deletePost(
-    @Args({ name: 'id', type: () => ID }) id: string,
-  ): Observable<boolean> {
-    const post = this.client.send<PostObjectType, string>('delete-post', id);
+  public deletePost(@Args({ name: 'id', type: () => ID }) id: string): boolean {
+    this.client.emit<PostObjectType, string>('delete-post', id);
 
-    this.pubSub.publish('postDelected', { postDelected: post });
+    this.pubSub.publish('postDelected', { postDelected: id });
 
-    return;
+    return true;
   }
 }

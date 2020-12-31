@@ -14,14 +14,11 @@ export default class UserObjectType {
   email: string;
 
   @Field()
-  password: string;
+  created_at: string;
 
   @Field()
-  created_at: Date;
+  updated_at: string;
 
-  @Field()
-  updated_at: Date;
-
-  @Field(() => [PostObjectType])
+  @Field(() => [PostObjectType], { nullable: true })
   posts: PostObjectType[];
 }

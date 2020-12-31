@@ -1,5 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RpcException } from '@nestjs/microservices';
 
 import IPostRepository from '../repositories/IPost.repository';
 import PostRepository from '../infra/typeorm/repositories/Post.repository';
@@ -16,7 +17,7 @@ class GetPostService {
     const post = await this.postsRepository.findById(post_id);
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new RpcException('Post not found');
     }
 
     return post;

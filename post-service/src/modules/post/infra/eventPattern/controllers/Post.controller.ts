@@ -21,8 +21,8 @@ export default class PostResolver {
   ) {}
 
   @MessagePattern('user-posts')
-  public async index(@Payload() userId: string): Promise<PostEntity[]> {
-    const post = await this.getUserPostsService.execute(userId);
+  public async index(@Payload() id: string): Promise<PostEntity[]> {
+    const post = await this.getUserPostsService.execute(id);
 
     return post;
   }
@@ -50,7 +50,7 @@ export default class PostResolver {
     return post;
   }
 
-  @MessagePattern('update-post')
+  @MessagePattern('delete-post')
   public async delete(@Payload() id: string): Promise<PostEntity> {
     const post = await this.deletePostService.execute(id);
 
