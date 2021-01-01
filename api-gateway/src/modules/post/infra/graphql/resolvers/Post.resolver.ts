@@ -5,16 +5,15 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
 import JwtAuthGuard from '@shared/infra/graphql/guards/jwt-auth.guard';
-import CreatePostDTO from '../dtos/CreatePost.dto';
-import UpdatePostDTO from '../dtos/UpdatePost.dto';
+import PostDTO from '../dtos/Post.dto';
 import PostModel from '../models/Post.model';
 
 interface IUser {
   id: string;
 }
 
-type PostInputCreate = CreatePostDTO & { user_id: string };
-type PostInputUpdate = { data: UpdatePostDTO; id: string };
+type PostCreateDTO = PostDTO & { user_id: string };
+type PostUpdateDTO = { data: PostDTO; id: string };
 
 @UseGuards(JwtAuthGuard)
 @Resolver(() => PostModel)
@@ -47,9 +46,9 @@ export default class PostResolver {
   @Mutation(() => PostModel)
   public createPost(
     @Context('user') user: IUser,
-    @Args('data') input: CreatePostDTO,
+    @Args('data') input: PostDTO,
   ): Observable<PostModel> {
-    const post = this.client.send<PostModel, PostInputCreate>('create-post', {
+    const post = this.client.send<PostModel, PostCreateDTO>('create-post', {
       user_id: user.id,
       ...input,
     });
@@ -61,10 +60,10 @@ export default class PostResolver {
 
   @Mutation(() => PostModel)
   public updatePost(
-    @Args('data') input: UpdatePostDTO,
+    @Args('data') input: PostDTO,
     @Args({ name: 'id', type: () => ID }) id: string,
   ): Observable<PostModel> {
-    const post = this.client.send<PostModel, PostInputUpdate>('update-post', {
+    const post = this.client.send<PostModel, PostUpdateDTO>('update-post', {
       data: input,
       id,
     });
