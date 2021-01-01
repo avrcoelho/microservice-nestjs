@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
-import PostObjectType from '@modules/post/infra/graphql/ObjectsType/Post.object';
+import PostModel from '@modules/post/infra/graphql/models/Post.model';
 
 @ObjectType()
-export default class UserObjectType {
+export default class UserModel {
   @Field(() => ID)
   id: string;
 
@@ -19,6 +19,6 @@ export default class UserObjectType {
   @Field()
   updated_at: string;
 
-  @Field(() => [PostObjectType], { nullable: true })
-  posts: PostObjectType[];
+  @Field(() => [PostModel], { nullable: true })
+  posts: PostModel[];
 }

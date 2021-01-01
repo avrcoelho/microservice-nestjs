@@ -5,19 +5,19 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
 import JwtAuthGuard from '@shared/infra/graphql/guards/jwt-auth.guard';
-import CreatePostInput from '../inputs/CreatePost.input';
-import UpdatePostInput from '../inputs/UpdatePost.input';
-import PostObjectType from '../ObjectsType/Post.object';
+import CreatePostDTO from '../dtos/CreatePost.dto';
+import UpdatePostDTO from '../dtos/UpdatePost.dto';
+import PostModel from '../models/Post.model';
 
 interface IUser {
   id: string;
 }
 
-type PostInputCreate = CreatePostInput & { user_id: string };
-type PostInputUpdate = { data: UpdatePostInput; id: string };
+type PostInputCreate = CreatePostDTO & { user_id: string };
+type PostInputUpdate = { data: UpdatePostDTO; id: string };
 
 @UseGuards(JwtAuthGuard)
-@Resolver(() => PostObjectType)
+@Resolver(() => PostModel)
 export default class PostResolver {
   constructor(
     @Inject('POST_SERVICE') private readonly client: ClientProxy,
@@ -26,51 +26,48 @@ export default class PostResolver {
     private pubSub: PubSub,
   ) {}
 
-  @Query(() => [PostObjectType])
+  @Query(() => [PostModel])
   public getUserPosts(
     @Args({ name: 'id', type: () => ID }) id: string,
-  ): Observable<PostObjectType[]> {
-    const posts = this.client.send<PostObjectType[], string>('user-posts', id);
+  ): Observable<PostModel[]> {
+    const posts = this.client.send<PostModel[], string>('user-posts', id);
 
     return posts;
   }
 
-  @Query(() => PostObjectType)
+  @Query(() => PostModel)
   public getPost(
     @Args({ name: 'id', type: () => ID }) id: string,
-  ): Observable<PostObjectType> {
-    const post = this.client.send<PostObjectType, string>('show-post', id);
+  ): Observable<PostModel> {
+    const post = this.client.send<PostModel, string>('show-post', id);
 
     return post;
   }
 
-  @Mutation(() => PostObjectType)
+  @Mutation(() => PostModel)
   public createPost(
     @Context('user') user: IUser,
-    @Args('data') input: CreatePostInput,
-  ): Observable<PostObjectType> {
-    const post = this.client.send<PostObjectType, PostInputCreate>(
-      'create-post',
-      {
-        user_id: user.id,
-        ...input,
-      },
-    );
+    @Args('data') input: CreatePostDTO,
+  ): Observable<PostModel> {
+    const post = this.client.send<PostModel, PostInputCreate>('create-post', {
+      user_id: user.id,
+      ...input,
+    });
 
     this.pubSub.publish('postAdded', { postAdded: post });
 
     return post;
   }
 
-  @Mutation(() => PostObjectType)
+  @Mutation(() => PostModel)
   public updatePost(
-    @Args('data') input: UpdatePostInput,
+    @Args('data') input: UpdatePostDTO,
     @Args({ name: 'id', type: () => ID }) id: string,
-  ): Observable<PostObjectType> {
-    const post = this.client.send<PostObjectType, PostInputUpdate>(
-      'update-post',
-      { data: input, id },
-    );
+  ): Observable<PostModel> {
+    const post = this.client.send<PostModel, PostInputUpdate>('update-post', {
+      data: input,
+      id,
+    });
 
     this.pubSub.publish('postUpdated', { postUpdated: post });
 
@@ -79,7 +76,7 @@ export default class PostResolver {
 
   @Mutation(() => Boolean)
   public deletePost(@Args({ name: 'id', type: () => ID }) id: string): boolean {
-    this.client.emit<PostObjectType, string>('delete-post', id);
+    this.client.emit<PostModel, string>('delete-post', id);
 
     this.pubSub.publish('postDelected', { postDelected: id });
 

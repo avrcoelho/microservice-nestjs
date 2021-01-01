@@ -1,39 +1,31 @@
 import { Inject, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver, Query, Context } from '@nestjs/graphql';
 import { ClientProxy } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 import JwtAuthGuard from '@shared/infra/graphql/guards/jwt-auth.guard';
-import UserObjectType from '../ObjectsType/User.object';
-import UserInput from '../inputs/User.input';
-import { Observable } from 'rxjs';
+import UserModel from '../models/User.model';
+import UserDTO from '../dtos/User.dto';
 
 interface IUser {
   id: string;
 }
 
-@Resolver(() => UserObjectType)
+@Resolver(() => UserModel)
 export default class UserResolver {
   constructor(@Inject('USER_SERVICE') private readonly client: ClientProxy) {}
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => UserObjectType)
-  public getUser(@Context('user') user: IUser): Observable<UserObjectType> {
-    const userData = this.client.send<UserObjectType, string>(
-      'show-user',
-      user.id,
-    );
+  @Query(() => UserModel)
+  public getUser(@Context('user') user: IUser): Observable<UserModel> {
+    const userData = this.client.send<UserModel, string>('show-user', user.id);
 
     return userData;
   }
 
-  @Mutation(() => UserObjectType)
-  public createUser(
-    @Args('data') input: UserInput,
-  ): Observable<UserObjectType> {
-    const user = this.client.send<UserObjectType, UserInput>(
-      'create-user',
-      input,
-    );
+  @Mutation(() => UserModel)
+  public createUser(@Args('data') input: UserDTO): Observable<UserModel> {
+    const user = this.client.send<UserModel, UserDTO>('create-user', input);
 
     return user;
   }

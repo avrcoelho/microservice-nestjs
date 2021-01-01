@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
-import UserObjectType from '@modules/user/infra/graphql/ObjectsType/User.object';
+import UserModel from '@modules/user/infra/graphql/models/User.model';
 
 @ObjectType()
-export default class PostObjectType {
+export default class PostModel {
   @Field(() => ID)
   id: string;
 
@@ -25,8 +25,8 @@ export default class PostObjectType {
   @Field()
   updated_at: string;
 
-  @Field(() => UserObjectType, { nullable: true })
-  user: UserObjectType;
+  @Field(() => UserModel, { nullable: true })
+  user: UserModel;
 
   @Field(() => String, { nullable: true })
   get image_url() {

@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export default class UpdatePostInput {
+export default class CreatePostDTO {
   @Field()
   readonly title: string;
 

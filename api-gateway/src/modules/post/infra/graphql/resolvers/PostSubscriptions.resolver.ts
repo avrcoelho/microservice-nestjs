@@ -2,17 +2,17 @@ import { Inject } from '@nestjs/common';
 import { Args, Resolver, Subscription, ID } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 
-import UserObjectType from '@modules/user/infra/graphql/ObjectsType/User.object';
-import PostObjectType from '../ObjectsType/Post.object';
+import UserModel from '@modules/user/infra/graphql/models/User.model';
+import PostModel from '../models/Post.model';
 
-@Resolver(() => UserObjectType)
+@Resolver(() => UserModel)
 export default class GetPostsUserResolver {
   constructor(
     @Inject('PubSub')
     private pubSub: PubSub,
   ) {}
 
-  @Subscription(() => PostObjectType, {
+  @Subscription(() => PostModel, {
     filter: (payload, variables) =>
       String(payload.postAdded.user_id) === variables.user_id,
   })
@@ -20,7 +20,7 @@ export default class GetPostsUserResolver {
     return this.pubSub.asyncIterator('postAdded');
   }
 
-  @Subscription(() => PostObjectType, {
+  @Subscription(() => PostModel, {
     filter: (payload, variables) => {
       return String(payload.postUpdated.user_id) === variables.user_id;
     },
@@ -29,7 +29,7 @@ export default class GetPostsUserResolver {
     return this.pubSub.asyncIterator('postUpdated');
   }
 
-  @Subscription(() => PostObjectType, {
+  @Subscription(() => PostModel, {
     filter: (payload, variables) =>
       String(payload.postDelected.user_id) === variables.user_id,
   })

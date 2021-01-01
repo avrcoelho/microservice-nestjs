@@ -3,21 +3,21 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Inject } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
-import AuthInput from '../inputs/Auth.input';
-import AuthObjectType from '../ObjectsType/Auth.object';
+import AuthDTO from '../dtos/Auth.dto';
+import AuthModel from '../models/Auth.model';
 
-@Resolver(() => AuthObjectType)
+@Resolver(() => AuthModel)
 export default class AuthResolver {
   constructor(@Inject('USER_SERVICE') private readonly client: ClientProxy) {}
 
-  @Query(() => AuthObjectType)
+  @Query(() => AuthModel)
   public async getUser() {
     return '';
   }
 
-  @Mutation(() => AuthObjectType)
-  public auth(@Args('data') input: AuthInput): Observable<AuthObjectType> {
-    const auth = this.client.send<AuthObjectType>('auth', input);
+  @Mutation(() => AuthModel)
+  public auth(@Args('data') input: AuthDTO): Observable<AuthModel> {
+    const auth = this.client.send<AuthModel>('auth', input);
 
     return auth;
   }
