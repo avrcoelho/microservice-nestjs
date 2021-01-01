@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 
 import TimeoutInterceptor from '@shared/infra/graphql/interceptors/Timeout.interceptor';
 import { HttpExceptionFilter } from '@shared/infra/graphql/filters/HttpException.filter';
@@ -9,6 +10,11 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TimeoutInterceptor());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
 
   await app.listen(3333);
 }

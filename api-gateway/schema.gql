@@ -2,12 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AuthObjectType {
+type AuthModel {
   token: String!
   id: String!
 }
 
-type PostObjectType {
+type PostModel {
   id: ID!
   user_id: ID!
   title: String!
@@ -15,58 +15,52 @@ type PostObjectType {
   image: String
   created_at: String!
   updated_at: String!
-  user: UserObjectType
+  user: UserModel
   image_url: String
 }
 
-type UserObjectType {
+type UserModel {
   id: ID!
   name: String!
   email: String!
   created_at: String!
   updated_at: String!
-  posts: [PostObjectType!]
+  posts: [PostModel!]
 }
 
 type Query {
-  getUser: UserObjectType!
-  getUserPosts(id: ID!): [PostObjectType!]!
-  getPost(id: ID!): PostObjectType!
+  getUser: UserModel!
+  getUserPosts(id: ID!): [PostModel!]!
+  getPost(id: ID!): PostModel!
 }
 
 type Mutation {
-  auth(data: AuthInput!): AuthObjectType!
-  createUser(data: UserInput!): UserObjectType!
-  createPost(data: CreatePostInput!): PostObjectType!
-  updatePost(id: ID!, data: UpdatePostInput!): PostObjectType!
+  auth(data: AuthDTO!): AuthModel!
+  createUser(data: UserDTO!): UserModel!
+  createPost(data: PostDTO!): PostModel!
+  updatePost(id: ID!, data: PostDTO!): PostModel!
   deletePost(id: ID!): Boolean!
 }
 
-input AuthInput {
+input AuthDTO {
   email: String!
   password: String!
 }
 
-input UserInput {
+input UserDTO {
   name: String!
   email: String!
   password: String!
 }
 
-input CreatePostInput {
-  title: String!
-  content: String!
-  image: String
-}
-
-input UpdatePostInput {
+input PostDTO {
   title: String!
   content: String!
   image: String
 }
 
 type Subscription {
-  postAdded(user_id: ID!): PostObjectType!
-  postUpdated(user_id: ID!): PostObjectType!
-  postDelected(user_id: ID!): PostObjectType!
+  postAdded(user_id: ID!): PostModel!
+  postUpdated(user_id: ID!): PostModel!
+  postDelected(user_id: ID!): PostModel!
 }
