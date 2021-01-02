@@ -11,8 +11,6 @@ interface IRedisConfig {
   password: string;
 }
 
-console.log(process.env.REDIS_HOST);
-
 export default {
   host: process.env.REDIS_HOST,
   port: Number(process.env.REDIS_PORT),
