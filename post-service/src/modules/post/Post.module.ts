@@ -7,7 +7,7 @@ import UpdatePostService from './services/UpdatePost.service';
 import DeletePostService from './services/DeletePost.service';
 import GetPostService from './services/GetPost.service';
 import GetUserPostsService from './services/GetUserPosts.service';
-import PostController from './infra/eventPattern/controllers/Post.controller';
+import PostController from './infra/patterns/controllers/Post.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PostRepository])],

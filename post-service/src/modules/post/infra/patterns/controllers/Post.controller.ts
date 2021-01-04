@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { MessagePattern, EventPattern, Payload } from '@nestjs/microservices';
 
 import PostEntity from '../../typeorm/entities/Post.entity';
 import CreatePostService from '../../../services/CreatePost.service';
@@ -50,7 +50,7 @@ export default class PostResolver {
     return post;
   }
 
-  @MessagePattern('delete-post')
+  @EventPattern('delete-post')
   public async delete(@Payload() id: string): Promise<PostEntity> {
     const post = await this.deletePostService.execute(id);
 
