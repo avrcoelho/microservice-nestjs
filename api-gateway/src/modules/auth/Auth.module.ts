@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import redisConfig from '@config/redis';
-import AuthResolver from './infra/graphql/resolvers/Auth.resolver';
+import AuthResolver from './infra/http/graphql/resolvers/Auth.resolver';
 import JwtStrategy from './strategies/jwt.strategy';
 
 @Module({

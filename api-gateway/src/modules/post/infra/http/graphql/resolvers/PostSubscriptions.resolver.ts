@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common';
 import { Args, Resolver, Subscription, ID } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 
-import UserModel from '@modules/user/infra/graphql/models/User.model';
+import UserModel from '@modules/user/infra/http/graphql/models/User.model';
 import PostModel from '../models/Post.model';
 
 @Resolver(() => UserModel)

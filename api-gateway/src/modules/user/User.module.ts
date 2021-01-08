@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import redisConfig from '@config/redis';
-import UserResolver from './infra/graphql/resolvers/User.resolver';
-import GetMessageUserResolver from './infra/graphql/resolvers/GetUserPost.resolver';
+import UserResolver from './infra/http/graphql/resolvers/User.resolver';
+import GetMessageUserResolver from './infra/http/graphql/resolvers/GetUserPost.resolver';
 
 @Module({
   imports: [

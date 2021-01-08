@@ -4,7 +4,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
 import JwtAuthGuard from '@shared/infra/graphql/guards/jwt-auth.guard';
-import PostModel from '@modules/post/infra/graphql/models/Post.model';
+import PostModel from '@modules/post/infra/http/graphql/models/Post.model';
 import UserModel from '../models/User.model';
 
 @UseGuards(JwtAuthGuard)
