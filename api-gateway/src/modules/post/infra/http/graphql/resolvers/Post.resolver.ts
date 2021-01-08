@@ -4,7 +4,7 @@ import { PubSub } from 'graphql-subscriptions';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
-import JwtAuthGuard from '@shared/infra/graphql/guards/jwt-auth.guard';
+import JwtAuthGuard from '@shared/infra/http/guards/jwt-auth.guard';
 import PostDTO from '../dtos/Post.dto';
 import PostModel from '../models/Post.model';
 

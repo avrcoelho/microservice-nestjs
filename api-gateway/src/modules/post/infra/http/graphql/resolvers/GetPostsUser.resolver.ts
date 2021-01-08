@@ -3,7 +3,7 @@ import { Resolver, ResolveField, Parent } from '@nestjs/graphql';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
-import JwtAuthGuard from '@shared/infra/graphql/guards/jwt-auth.guard';
+import JwtAuthGuard from '@shared/infra/http/guards/jwt-auth.guard';
 import UserModel from '@modules/user/infra/http/graphql/models/User.model';
 import PostModel from '../models/Post.model';
 

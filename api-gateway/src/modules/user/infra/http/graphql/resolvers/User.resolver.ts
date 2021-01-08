@@ -3,7 +3,7 @@ import { Args, Mutation, Resolver, Query, Context } from '@nestjs/graphql';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
-import JwtAuthGuard from '@shared/infra/graphql/guards/jwt-auth.guard';
+import JwtAuthGuard from '@shared/infra/http/guards/jwt-auth.guard';
 import UserModel from '../models/User.model';
 import UserDTO from '../dtos/User.dto';
 
